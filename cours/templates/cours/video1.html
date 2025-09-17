@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FiqhApp - Cours de Fiqh</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a936f;
+            --primary-light: #88d498;
+            --secondary: #114b5f;
+            --accent: #f3e9d2;
+            --light: #f8f9fa;
+            --dark: #1d2d35;
+            --text: #333333;
+            --text-light: #6c757d;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            color: var(--text);
+            padding-top: 60px; /* Pour la navbar fixe */
+        }
+        
+        /* Navbar fixe */
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1030;
+            padding: 12px 0;
+        }
+        
+        .logo {
+            font-weight: 800;
+            font-size: 1.5rem;
+        }
+        
+        .logo-primary {
+            color: var(--primary);
+        }
+        
+        .logo-secondary {
+            color: var(--secondary);
+        }
+        
+        /* Player fixe */
+        .video-player-container {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            z-index: 1020;
+            background-color: #000;
+            height: 300px;
+            transition: height 0.3s ease;
+        }
+        
+        .video-player {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background-color: #000;
+        }
+        
+        .player-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            padding: 15px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .course-title-mobile {
+            display: none;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin: 0;
+            padding: 0 15px 10px;
+        }
+        
+        /* Contenu principal */
+        .main-content {
+            margin-top: 300px; /* Hauteur du player */
+            padding: 20px 0;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            position: sticky;
+            top: 370px; /* Navbar + player + offset */
+            height: calc(100vh - 390px);
+            overflow-y: auto;
+            padding-right: 15px;
+        }
+        
+        .course-info-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .course-title {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+        
+        .course-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .rating-stars {
+            color: #ffc107;
+            margin-right: 10px;
+        }
+        
+        .rating-value {
+            font-weight: 600;
+            color: var(--text-light);
+        }
+        
+        .instructor-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .instructor-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 15px;
+        }
+        
+        .instructor-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .instructor-name {
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+        
+        .instructor-title {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        .progress-container {
+            margin-bottom: 20px;
+        }
+        
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .progress-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        .progress-percent {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            border-radius: 4px;
+            background-color: #e9ecef;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, var(--primary), var(--primary-light));
+            border-radius: 4px;
+            width: 35%; /* Valeur exemple */
+        }
+        
+        /* Tabs de contenu */
+        .content-tabs {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        
+        .nav-tabs {
+            padding: 0 20px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .nav-link {
+            padding: 15px 20px;
+            font-weight: 600;
+            color: var(--text-light);
+            border: none;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .nav-link.active {
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+            background: transparent;
+        }
+        
+        .tab-content {
+            padding: 20px;
+        }
+        
+        /* Accordion des chapitres */
+        .chapter-accordion .accordion-item {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        
+        .chapter-accordion .accordion-button {
+            padding: 15px 20px;
+            font-weight: 600;
+            background-color: #f8f9fa;
+            color: var(--dark);
+        }
+        
+        .chapter-accordion .accordion-button:not(.collapsed) {
+            background-color: var(--primary-light);
+            color: var(--dark);
+        }
+        
+        .chapter-accordion .accordion-button::after {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%231a936f'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+        }
+        
+        .lesson-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-bottom: 1px solid #f1f1f1;
+        }
+        
+        .lesson-item:last-child {
+            border-bottom: none;
+        }
+        
+        .lesson-icon {
+            color: var(--primary);
+            margin-right: 15px;
+            font-size: 1.1rem;
+            width: 24px;
+            text-align: center;
+        }
+        
+        .lesson-content {
+            flex: 1;
+        }
+        
+        .lesson-title {
+            font-weight: 500;
+            margin-bottom: 3px;
+            font-size: 0.95rem;
+        }
+        
+        .lesson-duration {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+        
+        .lesson-status {
+            margin-left: 15px;
+            color: var(--primary);
+        }
+        
+        .quiz-section {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .quiz-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .quiz-title i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+        
+        .btn-start-quiz {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .video-player-container {
+                height: 250px;
+            }
+            
+            .main-content {
+                margin-top: 250px;
+            }
+            
+            .sidebar {
+                position: static;
+                height: auto;
+                margin-bottom: 30px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .video-player-container {
+                height: 200px;
+            }
+            
+            .main-content {
+                margin-top: 200px;
+            }
+            
+            .course-title-mobile {
+                display: block;
+            }
+            
+            .course-title-desktop {
+                display: none;
+            }
+            
+            .player-controls {
+                padding: 10px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .video-player-container {
+                height: 180px;
+            }
+            
+            .main-content {
+                margin-top: 180px;
+            }
+            
+            .nav-tabs {
+                padding: 0 10px;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+            }
+            
+            .nav-link {
+                padding: 12px 15px;
+                font-size: 0.9rem;
+                white-space: nowrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar fixe -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="logo">
+                    <span class="logo-primary">Fiqh</span><span class="logo-secondary">App</span>
+                </div>
+                <div class="d-flex align-items-center">
+                    <a href="#" class="btn btn-outline-primary btn-sm me-2">
+                        <i class="fas fa-arrow-left me-1"></i> Retour
+                    </a>
+                    <a href="#" class="text-decoration-none">
+                        <i class="fas fa-bell text-dark"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Player fixe -->
+    <div class="video-player-container">
+        <video class="video-player" controls>
+            <source src="#" type="video/mp4">
+            Votre navigateur ne supporte pas la lecture de vidéos.
+        </video>
+        <h2 class="course-title-mobile">Les bases de la purification (Tahâra)</h2>
+        <div class="player-controls">
+            <div>
+                <button class="btn btn-sm btn-light me-2">
+                    <i class="fas fa-play"></i>
+                </button>
+                <span>2:45 / 15:30</span>
+            </div>
+            <div>
+                <button class="btn btn-sm btn-light me-2">
+                    <i class="fas fa-volume-up"></i>
+                </button>
+                <button class="btn btn-sm btn-light">
+                    <i class="fas fa-expand"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenu principal -->
+    <div class="main-content">
+        <div class="container">
+            <div class="row">
+                <!-- Sidebar avec informations du cours -->
+                <div class="col-lg-4 order-lg-2">
+                    <div class="sidebar">
+                        <div class="course-info-card">
+                            <h1 class="course-title course-title-desktop">Les bases de la purification (Tahâra)</h1>
+                            <div class="course-rating">
+                                <div class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span class="rating-value">4.5 (128 avis)</span>
+                            </div>
+                            
+                            <div class="instructor-info">
+                                <div class="instructor-avatar">
+                                    <img src="https://ui-avatars.com/api/?name=Cheikh+Ahmed&background=1a936f&color=fff&size=100" alt="Cheikh Ahmed">
+                                </div>
+                                <div>
+                                    <div class="instructor-name">Cheikh Ahmed Al-Jazari</div>
+                                    <div class="instructor-title">Expert en Fiqh Malikite</div>
+                                </div>
+                            </div>
+                            
+                            <div class="progress-container">
+                                <div class="progress-text">
+                                    <span class="progress-label">Votre progression</span>
+                                    <span class="progress-percent">35%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <h5>Ce que vous apprendrez</h5>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Les différents types d'eau</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Les actes qui annulent les ablutions</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Les conditions de validité de la prière</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Comment faire ses ablutions correctement</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Contenu principal avec onglets -->
+                <div class="col-lg-8 order-lg-1">
+                    <div class="content-tabs">
+                        <ul class="nav nav-tabs" id="courseTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="content-tab" data-bs-toggle="tab" data-bs-target="#content" type="button" role="tab" aria-controls="content" aria-selected="true">Contenu</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab" aria-controls="description" aria-selected="false">Description</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="resources-tab" data-bs-toggle="tab" data-bs-target="#resources" type="button" role="tab" aria-controls="resources" aria-selected="false">Ressources</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="qa-tab" data-bs-toggle="tab" data-bs-target="#qa" type="button" role="tab" aria-controls="qa" aria-selected="false">Q&R</button>
+                            </li>
+                        </ul>
+                        
+                        <div class="tab-content" id="courseTabsContent">
+                            <!-- Onglet Contenu -->
+                            <div class="tab-pane fade show active" id="content" role="tabpanel" aria-labelledby="content-tab">
+                                <div class="accordion chapter-accordion" id="chaptersAccordion">
+                                    <!-- Chapitre 1 -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="chapter1Heading">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#chapter1" aria-expanded="true" aria-controls="chapter1">
+                                                <div>
+                                                    <div>1. Introduction à la Tahâra</div>
+                                                    <small class="text-muted">4 leçons • 15 min</small>
+                                                </div>
+                                            </button>
+                                        </h2>
+                                        <div id="chapter1" class="accordion-collapse collapse show" aria-labelledby="chapter1Heading" data-bs-parent="#chaptersAccordion">
+                                            <div class="accordion-body p-0">
+                                                <div class="

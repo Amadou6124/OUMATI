@@ -1,0 +1,232 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block content %}
+ <div class="container">
+        <!-- Section Spéciale -->
+        <section class="special-section">
+            <div class="section-header">
+                <h2 class="section-title">#SpecialForYou</h2>
+                <a href="#" class="see-all">See All</a>
+            </div>
+            
+            <div class="horizontal-scroll">
+                <div class="special-card">
+                    <div class="special-card-content">
+                        <div>
+                            <span class="special-badge">Limited time!</span>
+                            <h3 class="special-title">Get Special Offer</h3>
+                            <p class="special-desc">55+ Screens with all services available</p>
+                        </div>
+                        <div class="special-offer">T&C Applied</div>
+                    </div>
+                </div>
+                
+                <div class="special-card" style="background: linear-gradient(135deg, #6f42c1 0%, #4a2a8d 100%);">
+                    <div class="special-card-content">
+                        <div>
+                            <span class="special-badge">Nouveau!</span>
+                            <h3 class="special-title">Prière Complète</h3>
+                            <p class="special-desc">Guide détaillé de la salat</p>
+                        </div>
+                        <div class="special-offer">10 leçons</div>
+                    </div>
+                </div>
+                
+                <div class="special-card" style="background: linear-gradient(135deg, #fd7e14 0%, #c25c00 100%);">
+                    <div class="special-card-content">
+                        <div>
+                            <span class="special-badge">Populaire</span>
+                            <h3 class="special-title">Zakat Masterclass</h3>
+                            <p class="special-desc">Apprenez à calculer votre zakat</p>
+                        </div>
+                        <div class="special-offer">8 leçons</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="scroll-indicator">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </section>
+
+        <!-- Catégories -->
+        <section class="special-section">
+            <div class="section-header">
+                <h2 class="section-title">Category</h2>
+                <a href="#" class="see-all">See All</a>
+            </div>
+            
+            <div class="horizontal-scroll">
+                <a href="#" class="category-card">
+                    <div class="category-icon" style="background-color: var(--primary);">
+                        <i class="fas fa-hands-praying"></i>
+                    </div>
+                    <div class="category-name">ʿIbādāt<br>(Adoration)</div>
+                </a>
+                
+                <a href="#" class="category-card">
+                    <div class="category-icon" style="background-color: #6f42c1;">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <div class="category-name">Muʿāmalāt</div>
+                </a>
+                
+                <a href="#" class="category-card">
+                    <div class="category-icon" style="background-color: #fd7e14;">
+                        <i class="fas fa-ring"></i>
+                    </div>
+                    <div class="category-name">Munākaḥāt</div>
+                </a>
+                
+                <a href="#" class="category-card">
+                    <div class="category-icon" style="background-color: #d63384;">
+                        <i class="fas fa-scale-balanced"></i>
+                    </div>
+                    <div class="category-name">Jināyāt</div>
+                </a>
+                
+                <a href="#" class="category-card">
+                    <div class="category-icon" style="background-color: var(--secondary);">
+                        <i class="fas fa-gavel"></i>
+                    </div>
+                    <div class="category-name">Qaḍāya</div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Cours Populaires -->
+        <section class="special-section">
+            <div class="section-header">
+                <h2 class="section-title">Popular Spaces</h2>
+                <a href="#" class="see-all">See All</a>
+            </div>
+            
+            <div class="horizontal-scroll">
+                <div class="course-card">
+                    <div class="course-image">
+                        <img src="https://img.youtube.com/vi/6xJZg5QGbdM/maxresdefault.jpg" alt="Les types d'eau">
+                        <span class="course-duration">12:45</span>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">Les types d'eau en Islam</h3>
+                        <div class="course-info">
+                            <span class="course-category">Tahâra</span>
+                            <span><i class="far fa-eye"></i> 2.5k</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="course-card">
+                    <div class="course-image">
+                        <img src="https://img.youtube.com/vi/6xJZg5QGbdM/maxresdefault.jpg" alt="Piliers de la prière">
+                        <span class="course-duration">18:30</span>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">Les piliers de la prière</h3>
+                        <div class="course-info">
+                            <span class="course-category">Salat</span>
+                            <span><i class="far fa-eye"></i> 3.1k</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="course-card">
+                    <div class="course-image">
+                        <img src="https://img.youtube.com/vi/6xJZg5QGbdM/maxresdefault.jpg" alt="Calcul de la Zakât">
+                        <span class="course-duration">22:15</span>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">Comment calculer la Zakât</h3>
+                        <div class="course-info">
+                            <span class="course-category">Zakat</span>
+                            <span><i class="far fa-eye"></i> 1.8k</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="course-card">
+                    <div class="course-image">
+                        <img src="https://img.youtube.com/vi/6xJZg5QGbdM/maxresdefault.jpg" alt="Règles du jeûne">
+                        <span class="course-duration">15:20</span>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">Les règles du jeûne</h3>
+                        <div class="course-info">
+                            <span class="course-category">Siyam</span>
+                            <span><i class="far fa-eye"></i> 2.9k</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cours Récents -->
+        <section class="special-section">
+            <div class="section-header">
+                <h2 class="section-title">Recent Courses</h2>
+                <a href="#" class="see-all">See All</a>
+            </div>
+            
+            <div class="horizontal-scroll">
+                <div class="course-card">
+                    <div class="course-image">
+                        <img src="https://img.youtube.com/vi/6xJZg5QGbdM/maxresdefault.jpg" alt="Contrats en Islam">
+                        <span class="course-duration">25:10</span>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">Les bases des contrats</h3>
+                        <div class="course-info">
+                            <span class="course-category">Transactions</span>
+                            <span><i class="far fa-clock"></i> 2j</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="course-card">
+                    <div class="course-image">
+                        <img src="https://img.youtube.com/vi/6xJZg5QGbdM/maxresdefault.jpg" alt="Mariage en Islam">
+                        <span class="course-duration">19:45</span>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">Conditions du mariage</h3>
+                        <div class="course-info">
+                            <span class="course-category">Famille</span>
+                            <span><i class="far fa-clock"></i> 5j</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="course-card">
+                    <div class="course-image">
+                        <img src="https://img.youtube.com/vi/6xJZg5QGbdM/maxresdefault.jpg" alt="Aliments licites">
+                        <span class="course-duration">14:20</span>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">Aliments licites et illicites</h3>
+                        <div class="course-info">
+                            <span class="course-category">Nourriture</span>
+                            <span><i class="far fa-clock"></i> 1s</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="course-card">
+                    <div class="course-image">
+                        <img src="https://img.youtube.com/vi/6xJZg5QGbdM/maxresdefault.jpg" alt="Pèlerinage">
+                        <span class="course-duration">28:35</span>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">Rites du Hajj expliqués</h3>
+                        <div class="course-info">
+                            <span class="course-category">Hajj</span>
+                            <span><i class="far fa-clock"></i> 3j</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}

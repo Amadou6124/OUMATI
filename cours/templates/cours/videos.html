@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cours de Fiqh - Plateforme d'Apprentissage</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #1e4e7e;
+            --secondary-color: #f8f9fa;
+            --accent-color: #d4af37;
+            --text-color: #333;
+            --light-text: #6c757d;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            background-color: #f5f5f5;
+        }
+        
+        .fixed-player {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: #000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+        }
+        
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+        }
+        
+        .course-header {
+            background-color: white;
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .nav-tabs .nav-link {
+            color: var(--light-text);
+            font-weight: 500;
+            border: none;
+            padding: 1rem 1.5rem;
+        }
+        
+        .nav-tabs .nav-link.active {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--primary-color);
+            background: transparent;
+        }
+        
+        .accordion-button:not(.collapsed) {
+            background-color: rgba(30, 78, 126, 0.05);
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .accordion-button:focus {
+            box-shadow: none;
+            border-color: rgba(0,0,0,.125);
+        }
+        
+        .lesson-item {
+            padding: 0.75rem 1.25rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        
+        .lesson-item:last-child {
+            border-bottom: none;
+        }
+        
+        .lesson-icon {
+            margin-right: 12px;
+            color: var(--light-text);
+        }
+        
+        .quiz-badge {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .progress-sm {
+            height: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .instructor-info {
+                padding: 1rem 0;
+            }
+            
+            .course-actions {
+                margin-top: 1rem;
+            }
+            
+            .nav-tabs .nav-link {
+                padding: 0.75rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Lecteur fixe -->
+    <div class="fixed-player">
+        <div class="video-container">
+            <video controls poster="https://placehold.co/800x450/1e4e7e/white?text=Lecture+de+Fiqh">
+                <source src="#" type="video/mp4">
+                Votre navigateur ne supporte pas la lecture de vidéos.
+            </video>
+        </div>
+    </div>
+
+    <!-- En-tête du cours -->
+    <div class="course-header">
+        <div class="container">
+            <h1 class="h2 mb-2">Création d'API Web RESTful avec Django</h1>
+            <div class="d-flex flex-wrap align-items-center text-muted mb-3">
+                <div class="me-3">
+                    <span class="badge bg-warning text-dark">4.2 ★★★★★</span>
+                    <span>(327 avis)</span>
+                </div>
+                <div class="me-3">Développement Web</div>
+                <div>Niveau: Intermédiaire</div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-8 instructor-info">
+                    <div class="d-flex align-items-center">
+                        <img src="https://placehold.co/50x50/1e4e7e/white?text=I" alt="Instructeur" class="rounded-circle me-3">
+                        <div>
+                            <h6 class="mb-0">Professeur Ahmed</h6>
+                            <small class="text-muted">Expert en développement web et sciences islamiques</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 course-actions">
+                    <div class="d-flex justify-content-md-end">
+                        <button class="btn btn-outline-primary me-2">
+                            <i class="bi bi-heart"></i>
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="bi bi-cart"></i> S'inscrire
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenu principal avec onglets -->
+    <div class="container mt-4">
+        <ul class="nav nav-tabs" id="courseTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab">Description</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="content-tab" data-bs-toggle="tab" data-bs-target="#content" type="button" role="tab">Contenu</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="resources-tab" data-bs-toggle="tab" data-bs-target="#resources" type="button" role="tab">Ressources</button>
+            </li>
+        </ul>
+        
+        <div class="tab-content p-3 bg-white" id="courseTabsContent">
+            <!-- Onglet Description -->
+            <div class="tab-pane fade show active" id="description" role="tabpanel">
+                <h4>À propos de ce cours</h4>
+                <p>Ce cours vous enseignera comment créer des API Web RESTful avec Django, un framework Python puissant et populaire. Vous apprendrez les concepts fondamentaux du développement d'API REST, la sérialisation, la gestion des requêtes et réponses, l'authentification, les permissions, et bien plus encore.</p>
+                
+                <h5>Ce que vous apprendrez</h5>
+                <ul>
+                    <li>Comprendre les principes des API RESTful</li>
+                    <li>Implémenter les opérations CRUD avec Django REST Framework</li>
+                    <li>Gérer la sérialisation et la validation des données</li>
+                    <li>Mettre en place l'authentification et les permissions</li>
+                    <li>Optimiser les performances avec le filtrage et la pagination</li>
+                </ul>
+                
+                <h5>Prérequis</h5>
+                <ul>
+                    <li>Connaissances de base en Python</li>
+                    <li>Familiarité avec les concepts de base de Django</li>
+                    <li>Compréhension des fondamentaux du développement web</li>
+                </ul>
+            </div>
+            
+            <!-- Onglet Contenu -->
+            <div class="tab-pane fade" id="content" role="tabpanel">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="mb-0">Contenu du cours</h5>
+                    <div>
+                        <span class="text-muted">15 chapitres • 42 leçons</span>
+                    </div>
+                </div>
+                
+                <div class="accordion" id="chaptersAccordion">
+                    <!-- Chapitre 1 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                                <div class="d-flex justify-content-between w-100 me-3">
+                                    <span>1. Introduction</span>
+                                    <span class="text-muted">2m 48s</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#chaptersAccordion">
+                            <div class="accordion-body p-0">
+                                <div class="lesson-item">
+                                    <i class="bi bi-play-btn lesson-icon"></i>
+                                    <div class="flex-grow-1">Présentation du cours</div>
+                                    <div class="text-muted">2m 48s</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Chapitre 2 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                                <div class="d-flex justify-content-between w-100 me-3">
+                                    <span>2. Sérialisation, listage, filtrage et pagination des modèles</span>
+                                    <span class="text-muted">16m</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#chaptersAccordion">
+                            <div class="accordion-body p-0">
+                                <div class="lesson-item">
+                                    <i class="bi bi-play-btn lesson-icon"></i>
+                                    <div class="flex-grow-1">Introduction à la sérialisation</div>
+                                    <div class="text-muted">4m 10s</div>
+                                </div>
+                                <div class="lesson-item">
+                                    <i class="bi bi-file-text lesson-icon"></i>
+                                    <div class="flex-grow-1">Mise en place des modèles</div>
+                                    <div class="text-muted">5m 30s</div>
+                                </div>
+                                <div class="lesson-item">
+                                    <i class="bi bi-play-btn lesson-icon"></i>
+                                    <div class="flex-grow-1">Filtrage des données</div>
+                                    <div class="text-muted">3m 45s</div>
+                                </div>
+                                <div class="lesson-item">
+                                    <i class="bi bi-play-btn lesson-icon"></i>
+                                    <div class="flex-grow-1">Mise en œuvre de la pagination</div>
+                                    <div class="text-muted">2m 35s</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Chapitre 3 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                                <div class="d-flex justify-content-between w-100 me-3">
+                                    <span>3. Opérations CRUD pour les modèles</span>
+                                    <span class="text-muted">14m</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#chaptersAccordion">
+                            <div class="accordion-body p-0">
+                                <div class="lesson-item">
+                                    <i class="bi bi-play-btn lesson-icon"></i>
+                                    <div class="flex-grow-1">Création d'objets (Create)</div>
+                                    <div class="text-muted">3m 20s</div>
+                                </div>
+                                <div class="lesson-item">
+                                    <i class="bi bi-play-btn lesson-icon"></i>
+                                    <div class="flex-grow-1">Lecture d'objets (Read)</div>
+                                    <div class="text-muted">4m 10s</div>
+                                </div>
+                                <div class="lesson-item">
+                                    <i class="bi bi-play-btn lesson-icon"></i>
+                                    <div class="flex-grow-1">Mise à jour d'objets (Update)</div>
+                                    <div class="text-muted">3m 45s</div>
+                                </div>
+                                <div class="lesson-item">
+                                    <i class="bi bi-play-btn lesson-icon"></i>
+                                    <div class="flex-grow-1">Suppression d'objets (Delete)</div>
+                                    <div class="text-muted">2m 45s</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Chapitre 4 avec quiz -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingFour">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
+                                <div class="d-flex justify-content-between w-100 me-3">
+                                    <span>4. Gestion des champs, des relations et de la validation</span>
+                                    <span class="text-muted">19m</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#chaptersAccordion">
+                            <div class="accordion-body p-0">
+                                <div class="lesson-item">
+                                    <i class="bi bi-play-btn lesson-icon"></i>
+                                    <div class="flex-grow-1">Types de champs et leurs utilisations</div>
+                                    <div class="text-muted">5m 15s</div>
+                                </div>
+                                <div class="lesson-item">
+                                    <i class="bi bi-play-btn lesson-icon"></i>
+                                    <div class="flex-grow-1">Gestion des relations entre modèles</div>
+                                    <div class="text-muted">6m 30s</div>
+                                </div>
+                                <div class="lesson-item">
+                                    <i class="bi bi-play-btn lesson-icon"></i>
+                                    <div class="flex-grow-1">Validation des données</div>
+                                    <div class="text-muted">4m 20s</div>
+                                </div>
+                                <div class="lesson-item">
+                                    <i class="bi bi-play-btn lesson-icon"></i>
+                                    <div class="flex-grow-1">Validation personnalisée</div>
+                                    <div class="text-muted">2m 55s</div>
+                                </div>
+                                <div class="lesson-item bg-light">
+                                    <i class="bi bi-patch-question lesson-icon"></i>
+                                    <div class="flex-grow-1">
+                                        <span class="badge quiz-badge me-2">Quiz</span>
+                                        Quiz sur le chapitre
+                                    </div>
+                                    <div class="text-muted">En cours</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Plus de chapitres... -->
+                </div>
+            </div>
+            
+            <!-- Onglet Ressources -->
+            <div class="tab-pane fade" id="resources" role="tabpanel">
+                <h4>Ressources du cours</h4>
+                <p>Retrouvez ici tous les documents et ressources supplémentaires pour ce cours.</p>
+                
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Notes de cours complètes</h5>
+                            <small>PDF • 2.3 MB</small>
+                        </div>
+                        <p class="mb-1">Document contenant l'ensemble des points abordés dans le cours.</p>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Code source des exemples</h5>
+                            <small>ZIP • 1.5 MB</small>
+                        </div>
+                        <p class="mb-1">Archive contenant tous les exemples de code présentés pendant le cours.</p>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Guide de référence Django REST</h5>
+                            <small>PDF • 850 KB</small>
+                        </div>
+                        <p class="mb-1">Guide condensé des fonctionnalités principales de Django REST Framework.</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap & Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

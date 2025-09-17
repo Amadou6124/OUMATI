@@ -1,0 +1,228 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - FiqhApp</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!--  Style CSS -->
+      <link rel="stylesheet" href="{% static 'css/register.css' %}">
+</head>
+<body>
+    <div class="container py-5">
+        <div class="auth-container">
+            <div class="row g-0">
+                <!-- Left Side - Marketing -->
+                <div class="col-lg-6 auth-left">
+                    <div>
+                        <div class="auth-logo text-center">
+                            <i class="fas fa-mosque me-2"></i>
+                            <span>Fiqh</span><span>App</span>
+                        </div>
+                        
+                        <h2 class="text-center mb-4">Rejoignez notre communauté</h2>
+                        
+                        <ul class="feature-list">
+                            <li>
+                                <i class="fas fa-check"></i>
+                                <span>Accédez à 100+ leçons gratuites</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i>
+                                <span>Apprenez à votre rythme</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i>
+                                <span>Progressez avec des experts</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i>
+                                <span>100% conforme à la tradition islamique</span>
+                            </li>
+                        </ul>
+                        
+                        <div class="text-center mt-5">
+                            <img src="{% static 'images/auth-illustration.svg' %}" alt="Apprentissage islamique" class="img-fluid" style="max-width: 80%;">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Side - Authentication -->
+                <div class="col-lg-6 auth-right">
+                    <div>
+                        <h3 class="text-center mb-4">Bienvenue</h3>
+                        
+                        <!-- Navigation par onglets -->
+                        <ul class="nav nav-pills nav-justified mb-4">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="login-tab" data-bs-toggle="pill" href="#login">Connexion</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="register-tab" data-bs-toggle="pill" href="#register">Inscription</a>
+                            </li>
+                        </ul>
+                        
+                        <!-- Contenu des onglets -->
+                        <div class="tab-content">
+                            <!-- Onglet CONNEXION -->
+                            <div class="tab-pane fade show active" id="login">
+                                <p class="text-center text-muted mb-4">Connectez-vous pour continuer votre apprentissage</p>
+                                
+                                <!-- Social Auth Buttons -->
+                                <div class="mb-4">
+                                    <a href="{% url 'dash' %}" class="btn btn-social btn-google w-100">
+                                        <i class="fab fa-google me-2"></i>Continuer avec Google
+                                    </a>
+                                    <a href="{% url 'dash' %}" class="btn btn-social btn-apple w-100">
+                                        <i class="fab fa-apple me-2"></i>Continuer avec Apple
+                                    </a>
+                                </div>
+                                
+                                <div class="divider">
+                                    <span>Ou</span>
+                                </div>
+                                
+                                <!-- Formulaire Connexion -->
+                                <form method="post" action="{% url 'login' %}">
+                                    {% csrf_token %}
+                                    
+                                    {% if form.errors %}
+                                    <div class="alert alert-danger">
+                                        Identifiants incorrects. Veuillez réessayer.
+                                    </div>
+                                    {% endif %}
+                                    
+                                    <div class="mb-3">
+                                        <label for="login-email" class="form-label">Email</label>
+                                        <input type="email" name="username" class="form-control" id="login-email" placeholder="votre@email.com" required>
+                                    </div>
+                                    
+                                    <div class="mb-3 form-group">
+                                        <label for="login-password" class="form-label">Mot de passe</label>
+                                        <input type="password" name="password" class="form-control" id="login-password" placeholder="Votre mot de passe" required>
+                                        <span class="password-toggle" onclick="togglePassword('login-password')">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                    </div>
+                                    
+                                    <div class="d-flex justify-content-between align-items-center mb-4">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="rememberMe">
+                                            <label class="form-check-label" for="rememberMe">Se souvenir de moi</label>
+                                        </div>
+                                        <a href="#" class="text-decoration-none">Mot de passe oublié ?</a>
+                                    </div>
+                                    
+                                    <button type="submit" class="btn btn-primary w-100 mb-3">Se connecter</button>
+                                </form>
+                            </div>
+                            
+                            <!-- Onglet INSCRIPTION -->
+                            <div class="tab-pane fade" id="register">
+                                <p class="text-center text-muted mb-4">Créez votre compte pour commencer à apprendre</p>
+                                
+                                <!-- Social Auth Buttons -->
+                                <div class="mb-4">
+                                    <a href="{% url 'dash' %}" class="btn btn-social btn-google w-100">
+                                        <i class="fab fa-google me-2"></i>S'inscrire avec Google
+                                    </a>
+                                    <a href="{% url 'dash' %}" class="btn btn-social btn-apple w-100">
+                                        <i class="fab fa-apple me-2"></i>S'inscrire avec Apple
+                                    </a>
+                                </div>
+                                
+                                <div class="divider">
+                                    <span>Ou</span>
+                                </div>
+                                
+                                <!-- Formulaire Inscription -->
+                                <form method="post" action="{% url 'register' %}">
+                                    {% csrf_token %}
+                                    
+                                    <div class="mb-3">
+                                        <label for="register-name" class="form-label">Nom complet</label>
+                                        <input type="text" name="fullname" class="form-control" id="register-name" placeholder="Votre nom complet" required>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="register-email" class="form-label">Email</label>
+                                        <input type="email" name="email" class="form-control" id="register-email" placeholder="votre@email.com" required>
+                                    </div>
+                                    
+                                    <div class="mb-3 form-group">
+                                        <label for="register-password" class="form-label">Mot de passe</label>
+                                        <input type="password" name="password1" class="form-control" id="register-password" placeholder="Créez un mot de passe" required>
+                                        <span class="password-toggle" onclick="togglePassword('register-password')">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                    </div>
+                                    
+                                    <div class="mb-3 form-group">
+                                        <label for="register-password-confirm" class="form-label">Confirmer le mot de passe</label>
+                                        <input type="password" name="password2" class="form-control" id="register-password-confirm" placeholder="Confirmez votre mot de passe" required>
+                                        <span class="password-toggle" onclick="togglePassword('register-password-confirm')">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                    </div>
+                                    
+                                    <div class="form-check mb-4">
+                                        <input type="checkbox" class="form-check-input" id="terms" required>
+                                        <label class="form-check-label" for="terms">
+                                            J'accepte les <a href="#" class="text-decoration-none">conditions d'utilisation</a> et la <a href="#" class="text-decoration-none">politique de confidentialité</a>
+                                        </label>
+                                    </div>
+                                    
+                                    <button type="submit" class="btn btn-primary w-100 mb-3">Créer mon compte</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+   <script>
+    // Fonction pour toggle la visibilité du mot de passe - VERSION CORRIGÉE
+    function togglePassword(inputId) {
+        const passwordInput = document.getElementById(inputId);
+        const toggleIcon = passwordInput.parentNode.querySelector('.password-toggle i');
+        
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleIcon.classList.remove('fa-eye');
+            toggleIcon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            toggleIcon.classList.remove('fa-eye-slash');
+            toggleIcon.classList.add('fa-eye');
+        }
+    }
+    
+    // Activer l'onglet inscription si erreur - VERSION AMÉLIORÉE
+    document.addEventListener('DOMContentLoaded', function() {
+        // Vérifier si on a des erreurs de formulaire
+        const hasErrors = document.querySelector('.alert-danger') !== null;
+        const isRegisterPage = window.location.search.includes('register=true');
+        
+        if (hasErrors || isRegisterPage) {
+            const registerTab = new bootstrap.Tab(document.getElementById('register-tab'));
+            registerTab.show();
+        }
+        
+        // Gérer la persistance des données de formulaire en cas d'erreur
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('email')) {
+            document.getElementById('register-email').value = urlParams.get('email');
+        }
+    });
+</script>
+</body>
+</html>

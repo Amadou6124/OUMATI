@@ -1,0 +1,22 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/bottom-navbar.css' %}">
+
+
+<nav class="bottom-navbar">
+        <a href="{% url 'home' %}" class="nav-item" data-page="home">
+            <i class="fas fa-home nav-icon-bottom"></i>
+            <span>Accueil</span>
+        </a>
+        <a href="{% url 'recherche' %}" class="nav-item" data-page="explore">
+            <i class="fas fa-compass nav-icon-bottom"></i>
+            <span>Explorer</span>
+        </a>
+        <a href="{% url 'mon' %}" class="nav-item" data-page="learning">
+            <i class="fas fa-book-open nav-icon-bottom"></i>
+            <span>Apprentissage</span>
+        </a>
+        <a href="{% url 'profile' %}" class="nav-item" data-page="profile">
+            <i class="fas fa-user nav-icon-bottom"></i>
+            <span>Profil</span>
+        </a>
+    </nav>

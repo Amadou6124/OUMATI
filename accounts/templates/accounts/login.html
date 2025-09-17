@@ -1,0 +1,281 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - FiqhApp</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a936f;
+            --secondary: #114b5f;
+            --light: #f3e9d2;
+            --dark: #1d2d35;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, rgba(26,147,111,0.1) 0%, rgba(136,212,152,0.2) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        
+        .auth-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            max-width: 1000px;
+        }
+        
+        .auth-left {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .auth-right {
+            padding: 60px 40px;
+        }
+        
+        .auth-logo {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 2rem;
+            margin-bottom: 30px;
+        }
+        
+        .auth-logo span:first-child {
+            color: var(--primary);
+        }
+        
+        .auth-logo span:last-child {
+            color: var(--secondary);
+        }
+        
+        .btn-social {
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+        
+        .btn-social:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .btn-google {
+            border-color: #ddd;
+        }
+        
+        .btn-apple {
+            border-color: #000;
+            background: #000;
+            color: white;
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 30px 0;
+        }
+        
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e9ecef;
+        }
+        
+        .divider span {
+            padding: 0 15px;
+            color: #6c757d;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            border-radius: 12px;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.2rem rgba(26,147,111,0.25);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border: none;
+            border-radius: 12px;
+            padding: 15px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(26,147,111,0.3);
+        }
+        
+        .auth-switch {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 30px 0;
+        }
+        
+        .feature-list li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-list i {
+            color: var(--light);
+            background: rgba(255,255,255,0.2);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .auth-left {
+                padding: 40px 20px;
+                text-align: center;
+            }
+            
+            .auth-right {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <div class="auth-container">
+            <div class="row g-0">
+                <!-- Left Side - Marketing -->
+                <div class="col-lg-6 auth-left">
+                    <div>
+                        <div class="auth-logo text-center">
+                            <i class="fas fa-mosque me-2"></i>
+                            <span>Fiqh</span><span>App</span>
+                        </div>
+                        
+                        <h2 class="text-center mb-4">Rejoignez notre communauté</h2>
+                        
+                        <ul class="feature-list">
+                            <li>
+                                <i class="fas fa-check"></i>
+                                <span>Accédez à 100+ leçons gratuites</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i>
+                                <span>Apprenez à votre rythme</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i>
+                                <span>Progressez avec des experts</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i>
+                                <span>100% conforme à la tradition islamique</span>
+                            </li>
+                        </ul>
+                        
+                        <div class="text-center mt-5">
+                            <img src="{% static 'images/auth-illustration.svg' %}" alt="Apprentissage islamique" class="img-fluid" style="max-width: 80%;">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Side - Authentication -->
+                <div class="col-lg-6 auth-right">
+                    <div>
+                        <h3 class="text-center mb-4">Bienvenue</h3>
+                        <p class="text-center text-muted mb-4">Connectez-vous pour continuer votre apprentissage</p>
+                        
+                        <!-- Social Auth Buttons -->
+                        <div class="mb-4">
+                            <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-social btn-google w-100">
+                                <i class="fab fa-google me-2"></i>Continuer avec Google
+                            </a>
+                            <a href="{% url 'social:begin' 'apple' %}" class="btn btn-social btn-apple w-100">
+                                <i class="fab fa-apple me-2"></i>Continuer avec Apple
+                            </a>
+                        </div>
+                        
+                        <div class="divider">
+                            <span>Ou</span>
+                        </div>
+                        
+                        <!-- Email Form -->
+                        <form method="post" action="{% url 'login' %}">
+                            {% csrf_token %}
+                            
+                            {% if form.errors %}
+                            <div class="alert alert-danger">
+                                Identifiants incorrects. Veuillez réessayer.
+                            </div>
+                            {% endif %}
+                            
+                            <div class="mb-3">
+                                <label for="id_username" class="form-label">Email</label>
+                                <input type="email" name="username" class="form-control" id="id_username" placeholder="votre@email.com" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="id_password" class="form-label">Mot de passe</label>
+                                <input type="password" name="password" class="form-control" id="id_password" placeholder="Votre mot de passe" required>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="rememberMe">
+                                    <label class="form-check-label" for="rememberMe">Se souvenir de moi</label>
+                                </div>
+                                <a href="{% url 'password_reset' %}" class="text-decoration-none">Mot de passe oublié ?</a>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary w-100 mb-3">Se connecter</button>
+                        </form>
+                        
+                        <div class="auth-switch">
+                            <p class="mb-0">Pas encore de compte ? 
+                                <a href="{% url 'register' %}" class="text-decoration-none fw-bold">S'inscrire gratuitement</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
