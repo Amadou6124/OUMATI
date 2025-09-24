@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ course.title }} - Plateforme d'Apprentissage</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #1e4e7e;
+            --secondary-color: #f8f9fa;
+            --accent-color: #d4af37;
+            --text-color: #333;
+            --light-text: #6c757d;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            background-color: #f5f5f5;
+        }
+        
+        .fixed-player {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: #000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .course-header {
+            background-color: white;
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .nav-tabs .nav-link {
+            color: var(--light-text);
+            font-weight: 500;
+            border: none;
+            padding: 1rem 1.5rem;
+        }
+        
+        .nav-tabs .nav-link.active {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--primary-color);
+            background: transparent;
+        }
+        
+        .accordion-button:not(.collapsed) {
+            background-color: rgba(30, 78, 126, 0.05);
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .lesson-item {
+            padding: 0.75rem 1.25rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        
+        .lesson-item:last-child {
+            border-bottom: none;
+        }
+        
+        .lesson-icon {
+            margin-right: 12px;
+            color: var(--light-text);
+        }
+        
+        .quiz-badge {
+            background-color: var(--accent-color);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Lecteur fixe -->
+   <div class="fixed-player">
+    <div class="video-container">
+        {% with first_video=course.chapters.first.lessons.first %}
+            {% if first_video and first_video.youtube_id %}
+                <iframe src="https://www.youtube.com/embed/{{ first_video.youtube_id }}"
+                        frameborder="0" allowfullscreen></iframe>
+            {% else %}
+                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                        frameborder="0" allowfullscreen></iframe>
+            {% endif %}
+        {% endwith %}
+    </div>
+</div>
+    <!-- En-tête du cours -->
+    <div class="course-header">
+        <div class="container">
+            <h1 class="h2 mb-2">{{ course.title }}</h1>
+            <p class="text-muted">{{ course.description|truncatewords:40 }}</p>
+        </div>
+    </div>
+
+    <!-- Contenu principal -->
+    <div class="container">
+        <ul class="nav nav-tabs" id="courseTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button">Description</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="content-tab" data-bs-toggle="tab" data-bs-target="#content" type="button">Contenu</button>
+            </li>
+        </ul>
+        
+        <div class="tab-content p-3 bg-white" id="courseTabsContent">
+            <!-- Onglet Description -->
+            <div class="tab-pane fade show active" id="description" role="tabpanel">
+                <h4>À propos de ce cours</h4>
+                <p>{{ course.description }}</p>
+                
+                {% if course.prerequisites %}
+                <h5>Prérequis</h5>
+                <p>{{ course.prerequisites }}</p>
+                {% endif %}
+            </div>
+            
+            <!-- Onglet Contenu -->
+            <div class="tab-pane fade" id="content" role="tabpanel">
+                <div class="accordion" id="chaptersAccordion">
+                    {% for chapter in course.chapters.all %}
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading{{ chapter.id }}">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ chapter.id }}">
+                                    {{ forloop.counter }}. {{ chapter.title }}
+                                </button>
+                            </h2>
+                            <div id="collapse{{ chapter.id }}" class="accordion-collapse collapse" data-bs-parent="#chaptersAccordion">
+                                <div class="accordion-body p-0">
+                                    {% for lesson in chapter.lessons.all %}
+                                        <div class="lesson-item">
+                                            {% if lesson.lesson_type == "video" %}
+                                                <i class="bi bi-play-btn lesson-icon"></i>
+                                            {% elif lesson.lesson_type == "quiz" %}
+                                                <i class="bi bi-patch-question lesson-icon"></i>
+                                            {% else %}
+                                                <i class="bi bi-file-text lesson-icon"></i>
+                                            {% endif %}
+                                            <div class="flex-grow-1">{{ lesson.title }}</div>
+                                            <div class="text-muted">{{ lesson.duration }}</div>
+                                        </div>
+                                    {% empty %}
+                                        <p class="p-3">Aucune leçon pour ce chapitre.</p>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p class="p-3">Aucun chapitre disponible pour ce cours.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

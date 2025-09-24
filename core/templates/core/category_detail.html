@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block content %}
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-xxxxx" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+
+
+
+
+<div class="container my-4 mt-5">
+  <h2 class="mb-3">
+    {{ category.name_ar }} <small class="text-muted">({{ category.name_en }})</small>
+  </h2>
+  <p class="text-secondary">{{ category.description_ar }}</p>
+
+  <div class="row g-3">
+    {% for course in courses %}
+      <div class="col-6 col-md-4 col-lg-3">
+        <a href="{% url 'course_detail' course.pk %}" class="card h-100 text-decoration-none shadow-sm">
+          {% if course.image %}
+            <img src="{{ course.image.url }}" class="card-img-top" alt="{{ course.title }}">
+          {% else %}
+            <img src="https://via.placeholder.com/300x180?text=Course" class="card-img-top" alt="{{ course.title }}">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title text-dark">{{ course.title }}</h5>
+            <p class="card-text text-muted small">{{ course.description|truncatewords:15 }}</p>
+          </div>
+          <div class="card-footer d-flex justify-content-between align-items-center">
+            <small class="text-muted">{{ course.duration }}</small>
+            <small class="text-muted"><i class="fas fa-eye"></i> {{ course.views }}</small>
+          </div>
+        </a>
+      </div>
+    {% empty %}
+      <p class="text-center">Aucun cours disponible pour cette catégorie.</p>
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+    .popular-search-card {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 20px;
+    background-color: #f8f9fa;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    transition: 0.2s;
+}
+.popular-search-card:hover {
+    background-color: #e9ecef;
+}
+.popular-search-card.active {
+    background-color: #0d6efd;
+    color: #fff;
+    font-weight: 600;
+}
+
+</style>
+
+{% endblock %}

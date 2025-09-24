@@ -1,0 +1,8 @@
+
+ <h2>{{ course.title }}</h2>
+{% if course.image %}
+    <img src="{{ course.image.url }}" alt="{{ course.title }}">
+{% endif %}
+<p>{{ course.description }}</p>
+<span>Durée : {{ course.duration }}</span>
+<span>Vues : {{ course.views }}</span>
