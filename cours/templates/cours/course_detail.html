@@ -94,19 +94,43 @@
 </head>
 <body>
     <!-- Lecteur fixe -->
-   <div class="fixed-player">
+  <!-- <div class="fixed-player">
     <div class="video-container">
-        {% with first_video=course.chapters.first.lessons.first %}
-            {% if first_video and first_video.youtube_id %}
-                <iframe src="https://www.youtube.com/embed/{{ first_video.youtube_id }}"
-                        frameborder="0" allowfullscreen></iframe>
-            {% else %}
-                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                        frameborder="0" allowfullscreen></iframe>
-            {% endif %}
-        {% endwith %}
+        {% if first_video and first_video.youtube_url %}
+            <iframe src="https://www.youtube.com/embed/{{ first_video.youtube_id }}" frameborder="0" allowfullscreen></iframe>
+        {% else %}
+            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+        {% endif %}
+    </div>
+</div> -->
+
+
+<div class="fixed-player">
+    <div class="video-container">
+        {% if first_video and first_video.youtube_id %}
+            <iframe id="youtubePlayer" 
+                    src="https://www.youtube.com/embed/{{ first_video.youtube_id }}?enablejsapi=1&rel=0" 
+                    frameborder="0" allowfullscreen></iframe>
+        {% else %}
+            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+        {% endif %}
+    </div>
+
+    <div class="mt-2 d-flex justify-content-between">
+        {% if prev_lesson %}
+            <a href="{{ prev_lesson.get_absolute_url }}" class="btn btn-primary">&lt; Précédent</a>
+        {% else %}
+            <span></span>
+        {% endif %}
+
+        {% if next_lesson %}
+            <a href="{{ next_lesson.get_absolute_url }}" class="btn btn-primary">Suivant &gt;</a>
+        {% endif %}
     </div>
 </div>
+
+
+
     <!-- En-tête du cours -->
     <div class="course-header">
         <div class="container">
@@ -139,44 +163,97 @@
             </div>
             
             <!-- Onglet Contenu -->
-            <div class="tab-pane fade" id="content" role="tabpanel">
-                <div class="accordion" id="chaptersAccordion">
-                    {% for chapter in course.chapters.all %}
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="heading{{ chapter.id }}">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ chapter.id }}">
-                                    {{ forloop.counter }}. {{ chapter.title }}
-                                </button>
-                            </h2>
-                            <div id="collapse{{ chapter.id }}" class="accordion-collapse collapse" data-bs-parent="#chaptersAccordion">
-                                <div class="accordion-body p-0">
-                                    {% for lesson in chapter.lessons.all %}
-                                        <div class="lesson-item">
-                                            {% if lesson.lesson_type == "video" %}
-                                                <i class="bi bi-play-btn lesson-icon"></i>
-                                            {% elif lesson.lesson_type == "quiz" %}
-                                                <i class="bi bi-patch-question lesson-icon"></i>
-                                            {% else %}
-                                                <i class="bi bi-file-text lesson-icon"></i>
-                                            {% endif %}
-                                            <div class="flex-grow-1">{{ lesson.title }}</div>
-                                            <div class="text-muted">{{ lesson.duration }}</div>
-                                        </div>
-                                    {% empty %}
-                                        <p class="p-3">Aucune leçon pour ce chapitre.</p>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-                    {% empty %}
-                        <p class="p-3">Aucun chapitre disponible pour ce cours.</p>
-                    {% endfor %}
+           <div class="tab-pane fade" id="content" role="tabpanel">
+    <div class="accordion" id="chaptersAccordion">
+        {% for chapter in course.chapters.all %}
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading{{ chapter.id }}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ chapter.id }}">
+                        {{ forloop.counter }}. {{ chapter.title }}
+                    </button>
+                </h2>
+                <div id="collapse{{ chapter.id }}" class="accordion-collapse collapse" data-bs-parent="#chaptersAccordion">
+                    <div class="accordion-body p-0">
+                        {% for lesson in chapter.lessons.all %}
+                            <a href="{% url 'lesson_detail' course.id lesson.id %}" class="lesson-item text-decoration-none text-dark d-flex">
+                                {% if lesson.lesson_type == "video" %}
+                                    <i class="bi bi-play-btn lesson-icon"></i>
+                                {% elif lesson.lesson_type == "quiz" %}
+                                    <i class="bi bi-patch-question lesson-icon"></i>
+                                {% else %}
+                                    <i class="bi bi-file-text lesson-icon"></i>
+                                {% endif %}
+                                <div class="flex-grow-1">{{ lesson.title }}</div>
+                                <div class="text-muted">{{ lesson.duration }}</div>
+                                <!-- ✅ Check vert si terminé -->
+                                {% if lesson.id in completed_lessons %}
+                                    <i class="bi bi-check-circle-fill text-success ms-2"></i>
+                                {% endif %}
+                            </a>
+                        {% empty %}
+                            <p class="p-3">Aucune leçon pour ce chapitre.</p>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
+        {% empty %}
+            <p class="p-3">Aucun chapitre disponible pour ce cours.</p>
+        {% endfor %}
+    </div>
+</div>
+
         </div>
     </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+    <!-- Script pour auto-play YouTube vers la prochaine vidéo -->
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+  var player;
+
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('youtubePlayer', {
+      events: {
+        'onStateChange': onPlayerStateChange
+      }
+    });
+  }
+
+  function onPlayerStateChange(event) {
+    if (event.data === YT.PlayerState.ENDED) {
+      {% if next_lesson %}
+        window.location.href = "{{ next_lesson.get_absolute_url }}";
+      {% endif %}
+    }
+  }
+
+
+
+
+
+  function onPlayerStateChange(event) {
+  if (event.data === YT.PlayerState.ENDED) {
+    // ✅ Appeler la vue Django pour marquer la leçon comme terminée
+    fetch("{% url 'mark_lesson_completed' first_video.id %}", {
+      method: "POST",
+      headers: {
+        "X-CSRFToken": "{{ csrf_token }}",  // important
+      },
+    }).then(response => {
+      if (response.ok) {
+        console.log("Leçon marquée comme terminée !");
+        {% if next_lesson %}
+          window.location.href = "{{ next_lesson.get_absolute_url }}";
+        {% endif %}
+      }
+    });
+  }
+}
+
+    </script>
+
+
 </body>
 </html>

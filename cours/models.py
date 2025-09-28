@@ -1,4 +1,6 @@
 from django.db import models
+from django.urls import reverse
+from django.conf import settings
 
 class Course(models.Model):
     title = models.CharField(max_length=200)
@@ -56,3 +58,27 @@ class Lesson(models.Model):
         # 2. Sinon, essayer de trouver l’ID dans l’URL
         match = re.search(r"(?:v=|\/embed\/|\.be\/)([a-zA-Z0-9_-]{11})", self.youtube_url)
         return match.group(1) if match else None
+    
+    def get_absolute_url(self):
+        return reverse("lesson_detail", args=[self.chapter.course.id, self.id])
+
+    @property
+    def youtube_id(self):
+        if not self.youtube_url:
+            return None
+        import urllib.parse
+        url_data = urllib.parse.urlparse(self.youtube_url)
+        query = urllib.parse.parse_qs(url_data.query)
+        return query.get("v", [None])[0]
+    
+class LessonProgress(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    lesson = models.ForeignKey("Lesson", on_delete=models.CASCADE)
+    completed = models.BooleanField(default=False)
+    completed_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ("user", "lesson")  # un seul enregistrement par utilisateur/leçon
+
+    def __str__(self):
+        return f"{self.user} - {self.lesson} ({'✓' if self.completed else '✗'})"
